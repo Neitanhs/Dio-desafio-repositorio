@@ -1,0 +1,259 @@
+GIT e GITHUB  
+
+Aula 1
+Qual a importancia de Git?
+Ele é um sistema de versionamento de códigos distribuidos
+Ele vai ajudar e monitorar diferentes versões do nosso código na nossa máquina
+Efeito colaborativo
+
+Beneficios
+Controle de Versão
+Armazenamento em nuvem (Github)
+Trabalho em equipe
+Melhorar seu código
+Reconhecimento
+
+Aula 2
+Comandos no cmd
+dir - Comando de listagem  
+cd (Change directory) - Possibilita que a gente navegue entre as pastas
+cd.. - para retroceder 1 nível na navegação
+cls (clear screen) - Limpa o terminal
+Tecla TAB - Autocompleta, muito útil
+mkdir - criar pasta
+echo - printa de volta no terminal uma frase que vc digita
+> - redirecionador de fluxo
+del - deletar (somente ARQUIVOS e não repositórios/pastas)
+seta pra cima - navegar entre os comandos já realizados
+rmdir (remove directory) - remove o repositório/pastas
+
+Aula 3 
+Instalando o git
+
+Aula 4 - Como o git funciona
+
+sha1 (securit hash Algorithm) - é um algoritmo de encriptação
+A encriptação gera um conjunto de characteres identificador de 40 dígitos, sendo único.
+
+Aula 5 - Objetos dentro do Git (Funcionamento básicos)
+BLOBS - Onde os arquivos ficam guardados. Blobs possuem os metadados dos arquivos
+
+\0
+dado dos arquivos      //essa é a estrutura
+
+o git vai guardar esses arquivos de modo encriptado (sha1) e guarda os metadados (blobs)
+
+
+TREES - 
+Armazenam os blobs (bloco básico de composição)
+Possuem metadados
+Apontam aos blobs armazenados
+Os blobs não guardam os arquivos e sim, a chave encriptada
+Responsavel por montar a estrutura de onde estão os arquivos
+Uma arvore aponta pra outra arvore, do msm modo que um diretorio interagem com outro
+As arvores possuem um sha1 (encriptado) próprios, ou seja, se algum dado mudar na bolha (blob) consequentemente mudando seu código encriptado, também será gerado um novo código encriptado para a árvore, pois, todos estão interligados. 
+
+
+
+COMMIT -
+É o que junta tudo
+Ele aponta pra uma árvore, para um parente, para um autor e uma mensagem
+Da significado ao encapsulamento de arquivos (Trees e blobs)
+Autor é o programador (podendo ser você ou a pessoa que o editou)
+Também possui encriptação dos seus metadados, ou seja, se alterar uma blob, a sha1 vai ser trocada, e por consequencia irá mudar da árvore que aponta essa blob e o commit aponta para uma árvore, então também será gerado uma nova encriptação
+Ou seja, o commit garante que qualquer alteração de dado seja registrada e notada, por isso o GIT garante tanta segurança
+Commit é unico para cada autor (pessoa que ta programando)
+
+
+Então, resumindo, a relação seria
+
+O Commit interage com as árvores, possui o autor, comtários e os metadados
+
+Cada árvore pode interagir com diversos blobs
+
+e os blobs contém os dados
+
+OBS: TODOS POSSUEM ENCRIPTAÇÃO, ENTÃO QUALQUER MUDANÇA EM QUALQUER LINHA DE INTERAÇÃO SERÁ NOTADA E MUDARÁ O CÓDIGO ENCRIPTADO DE TODA ESTRUTURA, ex.:
+
+Uma blob muda um caractere, e muda o sha1
+por consequencia a arvore que interagia com essa blob também irá mudar
+que por consequencia o Commit a qual essa árvore interagia também trocará de sha1
+
+Dando uma ideia de efeito cascata/bola de neve
+
+
+E esse sistema, torna o GIT um sistema distribuído Seguro
+
+Aula 5
+O que é Chave SSH?
+É uma forma de estabelecer uma conexão segura e encriptada entre duas máquinas
+Serão fornecidas 2 chaves, uma publica e uma privada
+a publida vc coloca no Github
+Vai reconhecer a assinatura da máquina, tirando a necessidade de colocar alguma espécie de senha
+
+Como criar no GIT BASH?
+
+1) ssh-keygen -t ed25519 -C (email que você colocou no github, de preferencia) //Logo após, você clica enter e então será pedido que você coloque uma senha e depois confirme, depois disso, será então criada,no diretório informado, uma chave privada e outra publica.
+
+2) Após isso, você vai abrir o arquivo da chave publica (no git msm) indo diretamente para o diretorio da pasta que contém as duas chaves, desse modo:
+cd /c/Users/Neitã/.ssh (no meu caso)
+e se vc der um ls, irá ver que está dentro da pasta que contém tanto a sua chave quanto a pulblica (termina com .pub)
+
+Logo após, irá usar o comando "cat nomedoarquivo" no caso ficará 
+
+cat id_ed25519.pub
+
+e ele irá informar sua chave publica, que deverá ser copiada e colada dentro do Github
+
+após iniciar o processo com o comando eval $(ssh-agent -s) e for gerado um agent PID, iremos entregar nossa chave PRIVADA  para ele
+
+ssh-add nomedachave (se já estiver no diretório onde estão as chaves)
+logo após ele vai pedir a senha
+e pronto
+
+PASSOS SIMPLIFICADOS :
+Gerar chave
+Navegar até a pasta e pegar o conteudo da chave publica
+volta pro git e inicializa a chave privada no Agent pid
+
+Então depois de tudo isso, QUAL É A REAL IMPORTÂNCIA DISSO?
+
+Bom, basicamente esse sistema de Chave SSH veio para subistituir o modo antigo, que era colocar seu username e senha para qualquer processo feito no github
+
+Após criar sua chave, agora você pode fazer clones de códigos no Github sem o uso de senhas (principamente em repositórios privados)
+
+Onde agora o processo é:
+Você copia a Chave ssh do projeto no github que você quer clonar
+cria uma pasta própria para armazena-la
+Dentro do git, vá até a pasta que você criou
+Use o comando ----> git clone (chave ssh copiada)
+Na primeira vez virá uma confirmação (coloca yes)
+E então, será feito, sem o uso de senha será clonado o Repósitorio Privado do github
+
+
+
+eval $(ssh-agent -s) - para inicializar um processo, gerando o Agent pid
+cat - visualizar o conteúdo dos arquivos
+cd - para navegar entre os diretorios
+Control L - limpa a tela
+ls - lista os arquivos do diretório em que você está
+pwd - mostra em qual diretorio vc está
+
+Token de acesso ao portal
+Utilizado como senha quando realizada alguma alteração em uma commit
+Será utilizado quando quisermos clonar um repositório privado com a chave HTTPS
+
+Passo a passo
+Você copia a Chave HTTPS do repositório privado no github que você quer clonar
+cria uma pasta própria para armazena-la
+Dentro do git, vá até a pasta que você criou
+Use o comando ----> git clone (chave https copiada)
+vai aparecer a tela Conect to Github onde você vai colocar o TOKEN COPIADO
+E pronto, tá feito
+
+AULA 6 
+Comandos básicos
+
+git init : vai iniciar o repositório do git
+git add : mover arquivos e começar a dar inicio ao versionamento
+git commit : criando o commit
+
+Criando um repositório
+Após criarmos uma pasta (Para criar um miniprojeto, iremos criar uma subpasta também)
+iremos até o seu diretório e vamos usar o comando : git init (para iniciar o versionamento
+
+Antes de criar um arquivo, tem uma config inicial
+iremos usar os comandos:
+git config --global user.email "seu email"
+git config --global user.name seu username
+
+Adicionando um arquivo
+Markdown - forma mais humana mais escrito de se escrever um HTML
+
+Aula 7 (Explicação de tudo feito na aula 6)
+Git init : Ela cria um repositorio do git dentro do repositori/pasta
+
+Tracked (Rastreado) - 3 estágios
+Unmodified - Ainda não modificado 
+Modified - foi modificado
+Staged - Se preparando para um Commit
+
+git add - 
+Transforma um arquivo untracked (Sem reconhecimento do git) direto pra algo Staged (Se preparando para um Commit)
+
+E quando criado um Commit, vai para Unmodified (pois estamos dizendo que acabamos de modificar o arquivo, então será salvo daquela forma)
+E se abrimos e arquivo, irá para modified e se criarmos outro commit, vai pra staged e se tiver tudo ok irá novamente para Unmodified (Um ciclo)
+
+
+Repositório
+Desenvolvimento - Que fica nossa máquina
+Servidor - Que fica no depositório remoto (Github)
+
+Ou seja, é como se tivessemos 2 versões do nosso código, e através de alguns comandos específicos (que serão listados jaja), conseguimos sim colocar o código salvo na nossa maquina no depositório remoto
+
+Só será possivel mandar os arquivos para o Depositório remoto se Todos os arquivos estiverem "Comitados"
+
+
+git status- monitora o estado do arquivo (Umodified, modified e stage)
+
+mv - mover arquivos
+git add * -  Move todas as alterações para Staged (fazer sempre que modificar o arquivo)
+git commit -m "mensagem" - indo para o repósitorio local
+
+
+AULA 8 ---> Repositório local para o Remoto
+
+Comando para empurrar do nosso Repositório local para o Remoto
+
+git config --list = todas as configs do git (conferir se email e username bate com o do git)
+
+Logo após, para fazermos o processo, será necessário que primeiro o usuario vá até a sua pagina do Github, entre em repositórios e crie um novo
+
+Se vai ou não adicionar o README (CAPA DO PROJETO) pelo próprio github, fica a escolha
+
+Após isso ele dará o endereço em URL, copie
+
+abra o terminal GIT
+
+Entre na pasta master a qual quer enviar para o repositório remoto
+
+Primeiro, devemos adicionar a origem nesta pasta, como código : 
+       
+                    git remote add origin (e cola a URL)
+
+AVISO : ao criar a URL no site do github este mesmo processo é listado pelo próprio github, como uma espécie de tutorial
+
+AVISO 2 : o termo "origin" pode ser qualquer nome, mas por convenção se usa esse
+
+E agora, iremos mandar esse repositório local para o remoto, com o comando:
+
+             git push origin master
+
+vai pedir as credenciais, só colocar tranquilamente e prontom, está no Github
+
+E lá, você terá acesso as commits criadas (Juntamente com as strings, tipo comentários) em ordem cronológica, sendo de fácil entendimento a mudança que ocorreu no código, e junto com isso, também tera todos as chaves sha1 nas commits
+
+Obs : O README (Escrito assim msm) serve realmente como capa, então deixa a página do projeto bem bonitinha
+
+
+
+
+
+
+
+
+
+
+
+
+
+Flags
+-a : mostra arquivos ocultos
+--global : usada quando for fazer uma ação para não só atingir o projeto especifico, mas sim, todos os outros dai pra frente
+
+
+
+
+
+
+
