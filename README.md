@@ -1,3 +1,3 @@
-# Dio-desafio-repositorio 💻
+# Dio desafio : *repositório* 💻
 
- - Desafio de Projeto sobre Git/GitHub
+ - Desafio de Projeto sobre _Git/GitHub_
